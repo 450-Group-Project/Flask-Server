@@ -1,6 +1,7 @@
 
 <!doctype html>
 <html lang="en">
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,10 +10,12 @@
     <meta name="generator" content="Jekyll v3.8.5">
     <title>Context Analysis</title>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/pricing/">
 
     <!-- Bootstrap core CSS -->
-<link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script href="/index.js"></script>
 
 
     <style>
@@ -53,7 +56,7 @@
   <p class="lead">Give our tool a body of text and we'll tell you whether it's worded in a positive, neutral, or negative manner.</p>
 </div>
 
-<div class="container">
+<div class="container" id="content-container">
     <div class="card mb-4 shadow-sm">
       <div class="card-header">
         <h4 class="my-0 font-weight-normal text-center">Enter your text here</h4>
@@ -64,7 +67,7 @@
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
           </div>
         </form>
-        <button type="button" class="btn btn-lg btn-block btn-primary">Analyze</button>
+        <button type="button" class="btn btn-lg btn-block btn-primary" id="analyze-btn">Analyze</button>
       </div>
     </div>
   </div>
@@ -98,4 +101,21 @@
   </footer>
 </div>
 </body>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    // Handler for analyze button press
+    $("#analyze-btn").click(function(){
+      var user_str = $("#exampleFormControlTextarea1").val();
+      var url = "http://project450.eastus.cloudapp.azure.com:5000/vibe_check/" + user_str
+      console.log("Sent request for Analysis");
+      console.log(url);
+      $("#content-container").html("<div class='text-center'><div class='spinner-border' style='width: 3rem; height: 3rem;' role='status'><span class='sr-only'>Loading...</span></div></div>")
+      $.get(url, function(data, status){
+        $("#content-container").html(data);
+      });
+    });
+  });
+</script>
 </html>
